@@ -1,7 +1,4 @@
-/**
-* 
-*
-*/
+
 function _handleTileTap(oEvent) {
     app.to("profil");
     profil.setBindingContext(this.getBindingContext());
@@ -9,50 +6,23 @@ function _handleTileTap(oEvent) {
 
 
 /**
-* Retourne le nombre d'employés trouvé dans la table Contatcts_SAPUI2
-*
+* Return number of entries in Contacts
 */
 function __count(oValue) {
     if (oValue) {
-        var sPath = this.getBindingContext().getPath() + "/Contacts_SAPUI2";
+        var sPath = this.getBindingContext().getPath() + "/Contacts";
         return this.getModel().bindList(sPath).getContexts().length;
     }
 };
 
-/**
-*  
-*
-*/
-function __connection(oEvent) {
 
-    // récupérqation des identifiants
+function __logOn(oEvent) {
+
+    // getting login and pass from log form
     D_login = I_login.getValue();
     D_pass = I_pass.getValue();
-
-  /*  // création du model de données 
-    oModel = new sap.ui.model.odata.ODataModel( 
-        "https://adtppmemea16ws2010.accenture.com/NDC_RES_INDUS_3/_vti_bin/listdata.svc",
-        false,
-        D_login, 
-        D_pass
-    );  
-
-    oModel.setCountSupported(false);
-
-    // limite du nombre de profil affichés
-    oModel.setSizeLimit(20);
-
-    // application du model
-    sap.ui.getCore().setModel(oModel);   
-
-    // récupération du nom de l'utilisateur
-    userName = D_login.split(".");
-
-    if(userName.length > 2){
-        userName[1] = userName[1] + " " + userName[2];
-    }*/
-     
-    // redirection vers le menu       
+  
+   // go to menu
     app.to(menu);
 };
 
@@ -61,64 +31,57 @@ function __connection(oEvent) {
 * 
 *
 */
-function __deconnection(oEvent) {
+function __logOff(oEvent) {
+
     oModel = new sap.ui.model.odata.ODataModel( 
-        "https://adtppmemea16ws2010.accenture.com/NDC_RES_INDUS_3/_vti_bin/listdata.svc",
+        "_vti_bin/listdata.svc",
         false
     ); 
 
     sap.ui.getCore().setModel(oModel);
 
-    // redirection vers la fenêtre de connexion      
-    app.to(connexion);
+    // go to log window
+    app.to(log);
 };
 
-
-/**
-* 
-*
-*/
-function __filter(filtre){
+function __filter(filter){
 
     oTileCont.unbindAggregation("tiles", {
-        path : "/Contacts_SAPUI2",
+        path : "/Contacts",
         template : oTileTmp
     });
     oTileCont.destroyTiles();
 
     oTileCont.bindAggregation("tiles", {
-        path : "/Contacts_SAPUI2?$filter=Site eq '" 
+        path : "/Contacts?$filter=Place eq '" 
             + filtre + "' and startswith(LastName,'" 
-            + I_nom.getValue() 
+            + I_lastName.getValue() 
             + "') or startswith(FirstName'" 
-            + I_prenom.getValue() 
+            + I_firstName.getValue() 
             + "')&",
         template : oTileTmp
     }); 
 
-    annuaire.removeAllContent();
-    annuaire.addContent(filter);
-    annuaire.setEnableScrolling(false).addContent(oTileCont);
+    directory.removeAllContent();
+    directory.addContent(filter);
+    directory.setEnableScrolling(false).addContent(oTileCont);
 
     filter.setVisible(false);
 }
 
 
-/**
-* 
-*
-*/
+
 function __getProfil(lastname, name){
 
     oTileCont.unbindAggregation("tiles", {
-        path : "/Contacts_SAPUI2",
+        path : "/Contacts",
         template : oTileTmp
     });
 
     oTileCont.destroyTiles();
 
     oTileCont.bindAggregation("tiles", {
-        path : "/Contacts_SAPUI2?$filter=substringof('" 
+        path : "/Contacts?$filter=substringof('" 
             + lastname 
             + "',LastName) and substringof('" 
             + name 
@@ -126,28 +89,24 @@ function __getProfil(lastname, name){
         template : oTileTmp
     }); 
 
-    annuaire.removeAllContent();
-    annuaire.addContent(filter);
-    annuaire.setEnableScrolling(false).addContent(oTileCont);
+    directory.removeAllContent();
+    directory.addContent(filter);
+    directory.setEnableScrolling(false).addContent(oTileCont);
 
     filter.setVisible(false);
 
-    app.to(annuaire);
+    app.to(directory);
 }
 
 
-/**
-* 
-*
-*/   
 function __bookmark(oEvent){
  
     jQuery.sap.require("sap.m.MessageBox");
     
     sap.m.MessageBox.show(
-        "Ajouter cet employé aux favoris?",
+        "Add to bookmark?",
         "sap-icon://menu",
-        "Ajouter au favoris",
+        "Bookmark",
         [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO]
     );
 }
@@ -175,80 +134,17 @@ function __handleFilter (oEvent) {
 
 function __search(oEvent){
 
-    var ok = false;
-    var path = "";
 
-    if(I_nom.getValue().length == 0 && I_prenom.getValue().length == 0){
-        jQuery.sap.require("sap.m.MessageBox");
-        sap.m.MessageBox.show(
-            "Veuillez remplir au moins un des champs",
-            "sap-icon://menu",
-            "Erreur"
-        );
-    }
-    else{
-        if(I_nom.getValue().length > 0 && I_prenom.getValue().length > 0){
-
-            if(I_nom.getValue().length >= 2 && I_prenom.getValue().length >= 2){
-                ok = true;
-                path = "/Contacts_SAPUI2?$filter=startswith(LastName,'"
-                + I_nom.getValue()
+        path = "/Contacts?$filter=startswith(LastName,'"
+                + I_lastName.getValue()
                 + "') and startswith(FirstName,'"
-                + I_prenom.getValue()
+                + I_firstName.getValue()
                 + "')&";
-            }
-            else{
-                jQuery.sap.require("sap.m.MessageBox");
-                sap.m.MessageBox.show(
-                    "Les champs doivent contenir au moins 2 lettres",
-                    "sap-icon://menu",
-                    "Erreur"
-                );
-            }
-        }
-        else if(I_nom.getValue().length > 0 && I_prenom.getValue().length == 0){
-
-            if(I_nom.getValue().length >= 2){
-                ok = true;
-                path = "/Contacts_SAPUI2?$filter=startswith(LastName,'"
-                + I_nom.getValue()
-                + "')&";
-            }
-            else{
-                jQuery.sap.require("sap.m.MessageBox");
-                sap.m.MessageBox.show(
-                    "Le champ nom doit contenir au moins 2 lettres",
-                    "sap-icon://menu",
-                    "Erreur"
-                );
-            }
-        }
-        else if(I_nom.getValue().length == 0 && I_prenom.getValue().length > 0){
-
-            if(I_prenom.getValue().length >= 2){
-                ok = true;
-                path = "/Contacts_SAPUI2?$filter=startswith(FirstName,'"
-                + I_prenom.getValue()
-                + "')&";
-            }
-            else{
-                jQuery.sap.require("sap.m.MessageBox");
-                sap.m.MessageBox.show(
-                    "Le champ prénom doit contenir au moins 2 lettres",
-                    "sap-icon://menu",
-                    "Erreur"
-                );
-            }
-        }
-
-    }
-
-
-    if(ok){
+          
+            
         oTileCont.unbindAggregation("tiles", {
-            path : "/Contacts_SAPUI2",
+            path : "/Contacts",
             template : oTileTmp
-        });
 
         oTileCont.destroyTiles();
 
@@ -259,30 +155,10 @@ function __search(oEvent){
             template : oTileTmp
         }); 
 
-        annuaire.removeAllContent();
-        annuaire.addContent(filter);
-        annuaire.setEnableScrolling(false).addContent(oTileCont);
-        app.to(annuaire);
+        directory.removeAllContent();
+        directory.addContent(filter);
+        directory.setEnableScrolling(false).addContent(oTileCont);
+        app.to(directory);
     }
 }
 
-
-function __alpha(letter){
-    oTileCont.unbindAggregation("tiles", {
-        path : "/Contacts_SAPUI2",
-        template : oTileTmp
-    });
-
-    oTileCont.destroyTiles();
-
-    oTileCont.bindAggregation("tiles", {
-        path : "/Contacts_SAPUI2?$filter=startswith(LastName,'"+letter+"')&",
-        template : oTileTmp
-    }); 
-
-    annuaire.removeAllContent();
-    annuaire.addContent(filter);
-    annuaire.setEnableScrolling(false).addContent(oTileCont);
-    filter.setVisible(false);
-    app.to(annuaire);
-}
