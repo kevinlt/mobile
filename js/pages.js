@@ -301,6 +301,6 @@
 
 
     var app = new sap.m.App("App");
-    app.addPage(directory).addPage(profil).addPage(connect).addPage(menu).addPage(search).addPage(stats).setInitialPage(connect);
+    app.addPage(directory).addPage(profil).addPage(log).addPage(menu).addPage(search).addPage(stats).setInitialPage(log);
     var shell = new sap.m.Shell("Shell",{showLogout : true});
     shell.setApp(app).placeAt('body');
