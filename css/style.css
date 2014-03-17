@@ -1,0 +1,84 @@
+
+.sapMStdTileTopRow{
+        text-align: center;
+
+        height: 60%;
+    }
+
+    .sapMStdTileIconDiv{
+        margin: auto;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    .sapMStdTileIconDiv img{
+        min-width: 4rem;
+        min-height: 4rem;
+        max-height: 64px;
+        margin-top: 20px;
+    }
+
+    .sapMStdTileBottomRow{
+        height: 40%;
+
+    }
+
+    .sapMStdTileTitle{
+        height: 30%;
+        text-align: center;
+
+    }
+
+    .sapMStdTileInfo{
+        text-align: center;
+        margin-top: 0;
+
+    }
+
+    .sapMTileContent{
+        max-width: 160px;
+    }
+
+    .sapMTile{
+        max-width: 160px;
+    }
+
+    .sapMOH{
+        width: 100%;
+        text-align: center;
+    }
+
+    #__header0{
+        width: 100%;
+        min-height: 200px;
+        text-align: center;
+    }
+
+    .sapMOHIcon img{
+        min-width: 15rem;
+        min-height: 15rem;
+        max-height: 128px;
+    }
+
+    .sap-phone .sapMStdTileTitle{
+        height: 1rem;
+    }
+
+    .sap-phone .sapMStdTileTopRow{
+        height: 5rem;
+    }
+
+    .menu .sapMBtnContent{
+        color: #bbb;
+    }
+
+    .menu .sapMActionSheet button.sapMActionSheetButton{
+        background: #333;
+    }
+
+    .menu button.sapMBtn.sapMBtnEmphasized {
+        width: 100%;
+        border: none;
+    }
+

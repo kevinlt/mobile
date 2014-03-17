@@ -1,0 +1,22 @@
+<?xml version   ="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+                xmlns:gap   = "http://phonegap.com/ns/1.0"
+                id                      = "com.intel.sample"
+                versioncode = "1"
+                version                 = "1.0.0">
+ 
+ 
+                <name>Annuaire ATS Nantes</name>
+
+ 
+ 
+                <description>
+                   Annuaire Ats Nantes
+                </description>
+ 
+ 
+                <preference name="phonegap-version" value="3.3.0" /> 
+ 
+                <!-- for Android -->
+                <preference name="android-minSdkVersion" value="9" />
+</widget>
